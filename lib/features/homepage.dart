@@ -18,17 +18,25 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) => showDialog(
-        context: context,
-        builder: (context) {
-          final mediaQuery = MediaQuery.of(context).size;
-          final screenHeight = mediaQuery.height;
-          final screenWidth = mediaQuery.width;
-          return XtendlyPopUpMessage(
-            screenWidth: screenWidth,
-            screenHeight: screenHeight,
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) {
+        final mediaQuery = MediaQuery.of(context).size;
+        final screenHeight = mediaQuery.height;
+        final screenWidth = mediaQuery.width;
+        final isHalfScreen = screenWidth < (windowsWidth! / 2);
+
+        /// if the device mobile pop up will not show up
+        if (!isHalfScreen) {
+          showDialog(
+            context: context,
+            builder: (context) => XtendlyPopUpMessage(
+              screenWidth: screenWidth,
+              screenHeight: screenHeight,
+            ),
           );
-        }));
+        }
+      },
+    );
   }
 
   @override
